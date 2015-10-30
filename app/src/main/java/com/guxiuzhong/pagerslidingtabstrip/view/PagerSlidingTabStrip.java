@@ -65,7 +65,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private LinearLayout.LayoutParams defaultTabLayoutParams;
     private LinearLayout.LayoutParams expandedTabLayoutParams;
 
-    private final PageListener pageListener = new PageListener();
+    private PageListener pageListener;
     public OnPageChangeListener delegatePageListener;
 
     private LinearLayout tabsContainer;
@@ -177,6 +177,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         if (locale == null) {
             locale = getResources().getConfiguration().locale;
         }
+        pageListener = new PageListener();
     }
 
     public void setViewPager(MyJazzyViewPager pager) {
@@ -400,7 +401,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                             tab.setText(tab.getText().toString().toUpperCase(locale));
                         }
                     }
-                    if (i == currentPosition) {
+                    if (i == selectedPosition) {
 
 
                         ViewHelper.setAlpha(tabViews.get(i).get("normal"), 0);
@@ -558,9 +559,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
         @Override
         public void onPageSelected(int position) {
-//			selectedPosition = position;
+			selectedPosition = position;
 //			updateTabStyles();
-            currentPosition = position;
+//            currentPosition = position;
 
             //set old view statue
             ViewHelper.setAlpha(tabViews.get(oldPosition).get("normal"), 1);
@@ -584,8 +585,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             if (delegatePageListener != null) {
                 delegatePageListener.onPageSelected(position);
             }
-//			oldPosition = selectedPosition;
-            oldPosition = currentPosition;
+			oldPosition = selectedPosition;
+//            oldPosition = currentPosition;
 
         }
 
