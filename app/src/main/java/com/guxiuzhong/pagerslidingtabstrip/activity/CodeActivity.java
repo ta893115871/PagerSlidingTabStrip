@@ -1,46 +1,38 @@
 package com.guxiuzhong.pagerslidingtabstrip.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
+import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
 
+import com.example.guxiuzhong.pagerslidingtab_lib.PagerSlidingTabStrip;
 import com.guxiuzhong.pagerslidingtabstrip.R;
 import com.guxiuzhong.pagerslidingtabstrip.fragment.FragmentContent;
-import com.guxiuzhong.pagerslidingtabstrip.view.MyJazzyViewPager;
-import com.guxiuzhong.pagerslidingtabstrip.view.PagerSlidingTabStrip;
 
 /***
  * Android-导航栏特效
- 新闻类APP(比网易，今日头条)
- 主要是导航栏字体大小和颜色的渐变特效.
- Created by guxiuzhong on 2015/7/6.
+ * 新闻类APP(比网易，今日头条)
+ * 主要是导航栏字体大小和颜色的渐变特效.
+ * Created by guxiuzhong on 2015/7/6.
  */
-public class MainActivity extends FragmentActivity {
+public class CodeActivity extends FragmentActivity {
 
-    private DisplayMetrics dm;
     private PagerSlidingTabStrip tabs;
-    private MyJazzyViewPager pager;
+    private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dm = getResources().getDisplayMetrics();
-        pager = (MyJazzyViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-
         tabs.setViewPager(pager);
-        setTabsValue();
-
-        tabs.setFadeEnabled(true);
         pager.setCurrentItem(1);
+        setTabsValue();
     }
 
     /**
@@ -49,25 +41,34 @@ public class MainActivity extends FragmentActivity {
     private void setTabsValue() {
         // 设置Tab是自动填充满屏幕的
         tabs.setShouldExpand(true);
-        // 设置Tab的分割线是透明的
-        tabs.setDividerColor(Color.TRANSPARENT);
-        // 设置Tab底部线的高度
-        tabs.setUnderlineHeight((int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 1, dm));
-        // 设置Tab Indicator的高度
-        tabs.setIndicatorHeight((int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 4, dm));
-        // 设置Tab标题文字的大小
-        tabs.setTextSize((int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, 16, dm));
+
+        // 设置Tab的分割线的颜色
+        tabs.setDividerColor(getResources().getColor(R.color.color_80cbc4));
+        // 设置分割线的上线的间距,传入的是dp
+        tabs.setDividerPaddingTopBottom(12);
+
+        // 设置Tab底部线的高度,传入的是dp
+        tabs.setUnderlineHeight(1);
+        //设置Tab底部线的颜色
+        tabs.setUnderlineColor(getResources().getColor(R.color.color_1A000000));
+
+        // 设置Tab 指示器Indicator的高度,传入的是dp
+        tabs.setIndicatorHeight(4);
         // 设置Tab Indicator的颜色
-        tabs.setIndicatorColor(Color.parseColor("#45c01a"));
-        // 设置选中Tab文字的颜色 (这是我自定义的一个方法)
-        tabs.setSelectedTextColor(Color.parseColor("#45c01a"));
-        //设置正常Tab文字的颜色 (这是我自定义的一个方法)
-        tabs.setTextColor(Color.parseColor("#C231C7"));
-        // 取消点击Tab时的背景色
-        tabs.setTabBackground(0);
+        tabs.setIndicatorColor(getResources().getColor(R.color.color_45c01a));
+
+        // 设置Tab标题文字的大小,传入的是dp
+        tabs.setTextSize(16);
+        // 设置选中Tab文字的颜色
+        tabs.setSelectedTextColor(getResources().getColor(R.color.color_45c01a));
+        //设置正常Tab文字的颜色
+        tabs.setTextColor(getResources().getColor(R.color.color_C231C7));
+
+        //  设置点击Tab时的背景色
+        tabs.setTabBackground(R.drawable.background_tab);
+
+        //是否支持动画渐变(及透明度和大小)
+        tabs.setFadeEnabled(true);
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.guxiuzhong.pagerslidingtabstrip.view;
+package com.example.guxiuzhong.pagerslidingtab_lib;
 
 import android.app.Activity;
 import android.content.Context;
