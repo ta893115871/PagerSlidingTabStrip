@@ -9,7 +9,6 @@
     tools:context=".MainActivity">
 
 
-
     <com.example.guxiuzhong.pagerslidingtab_lib.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"

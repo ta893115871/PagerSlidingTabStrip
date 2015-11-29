@@ -1,14 +1,12 @@
 package com.guxiuzhong.pagerslidingtabstrip.adapter;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.guxiuzhong.pagerslidingtabstrip.fragment.FragmentContent;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 顾修忠-guxiuzhong@youku.com/gfj19900401@163.com
@@ -22,9 +20,12 @@ public class MyFrPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<String> titles;
 
-    public MyFrPagerAdapter(FragmentManager fm, ArrayList<String> list) {
+    private List<Fragment> fragments;
+
+    public MyFrPagerAdapter(FragmentManager fm, ArrayList<String> list,List<Fragment> fragments) {
         super(fm);
         this.titles = list;
+        this.fragments=fragments;
     }
 
 
@@ -45,8 +46,6 @@ public class MyFrPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Bundle b = new Bundle();
-        b.putString("title", titles.get(position));
-        return FragmentContent.getInstance(b);
+        return fragments.get(position);
     }
 }

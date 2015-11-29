@@ -1,20 +1,17 @@
 package com.guxiuzhong.pagerslidingtabstrip.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.ViewGroup;
 
 import com.example.guxiuzhong.pagerslidingtab_lib.PagerSlidingTabStrip;
 import com.guxiuzhong.pagerslidingtabstrip.R;
-import com.guxiuzhong.pagerslidingtabstrip.fragment.FragmentContent;
+import com.guxiuzhong.pagerslidingtabstrip.adapter.MyPagerAdapter;
+
+import java.util.ArrayList;
 
 /***
  * Android-导航栏特效
- * 新闻类APP(比网易，今日头条)
  * 主要是导航栏字体大小和颜色的渐变特效.
  * Created by guxiuzhong on 2015/7/6.
  */
@@ -26,10 +23,14 @@ public class CodeActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.code);
         pager = (ViewPager) findViewById(R.id.pager);
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add("Tab " + i);
+        }
+        pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), list));
         tabs.setViewPager(pager);
         pager.setCurrentItem(1);
         setTabsValue();
@@ -67,40 +68,9 @@ public class CodeActivity extends FragmentActivity {
         //  设置点击Tab时的背景色
         tabs.setTabBackground(R.drawable.background_tab);
 
-        //是否支持动画渐变(及透明度和大小)
+        //是否支持动画渐变(颜色渐变和文字大小渐变)
         tabs.setFadeEnabled(true);
-    }
-
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        private final String[] titles = {"TAB1", "TAB2", "TAB3", "TAB4",
-                "TAB5", "TAB6", "TAB7", "TAB8", "TAB9", "TAB10", "TAB11", "TAB12", "TAB13", "TAB14"
-                , "TAB15", "TAB16", "TAB17", "TAB18", "TAB19", "TAB20"};
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
-        }
-
-        @Override
-        public int getCount() {
-            return titles.length;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            return super.instantiateItem(container, position);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Bundle b = new Bundle();
-            b.putString("title", titles[position]);
-            return FragmentContent.getInstance(b);
-        }
+        // 设置最大缩放,是正常状态的0.3倍
+        tabs.setZoomMax(0.3F);
     }
 }
