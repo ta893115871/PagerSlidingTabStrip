@@ -5,11 +5,11 @@ Android-导航栏特效，主要是导航栏字体大小和颜色的渐变特效
 <img src="1.gif" width="320px"/>
 <img src="2.gif" width="320px"/>
 # 属性
-app:pstsIndicatorColor  指示器的颜色
-app:pstsIndicatorHeight 指示器的高度
-app:pstsUnderlineColor 底部线的颜色
-app:pstsUnderlineHeight 底部线的高度
-app:pstsDividerColor 分割线的颜色
+app:pstsIndicatorColor  指示器的颜色\n
+app:pstsIndicatorHeight 指示器的高度\n
+app:pstsUnderlineColor 底部线的颜色\n
+app:pstsUnderlineHeight 底部线的高度\n
+app:pstsDividerColor 分割线的颜色\n
 app:pstsDividerPaddingTopBottom 分割线的上下间距
 app:pstsTabPaddingLeftRight 文本的左右间距
 app:pstsTextSelectedColor TAB选中的颜色
