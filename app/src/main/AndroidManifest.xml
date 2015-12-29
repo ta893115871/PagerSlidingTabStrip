@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.guxiuzhong.pagerslidingtabstrip">
+    package="com.gxz.pagerslidingtabstrip">
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".activity.CodeActivity" />
         <activity android:name=".activity.LayoutActivity" />
-        <activity android:name=".activity.FixTabActivity"></activity>
+        <activity android:name=".activity.FixTabActivity"/>
     </application>
 
 </manifest>

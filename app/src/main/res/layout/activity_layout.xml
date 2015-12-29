@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.guxiuzhong.pagerslidingtabstrip.activity.LayoutActivity">
 
-    <com.example.guxiuzhong.pagerslidingtab_lib.PagerSlidingTabStrip
+    <com.gxz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="40dp"

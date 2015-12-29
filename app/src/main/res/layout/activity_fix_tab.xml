@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.guxiuzhong.pagerslidingtabstrip.activity.FixTabActivity">
 
-    <com.example.guxiuzhong.pagerslidingtab_lib.PagerSlidingTabStrip
+    <com.gxz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="40dp"
