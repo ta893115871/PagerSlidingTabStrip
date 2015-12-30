@@ -1,1 +1,1 @@
-include ':app', ':pagerslidingtab-lib'
+include ':app', ':library'
