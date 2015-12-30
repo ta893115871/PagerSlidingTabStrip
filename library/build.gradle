@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 // 这个version影响后面的引用
 // 这个version是区分library版本的，因此当我们需要更新library时记得修改这个version
 
-version = "1.0"
+version = "1.1"
 
 android {
     resourcePrefix "gxz_" //随意填写
@@ -35,7 +35,7 @@ dependencies {
 
 def siteUrl = 'https://github.com/ta893115871/PagerSlidingTabStrip'    // 项目的主页
 def gitUrl = 'https://github.com/ta893115871/PagerSlidingTabStrip.git'  // Git仓库的url
-group = "com.gxz.library"    // Maven Group ID for the artifact，一般填你唯一的包名
+group = "com.gxz.pagerslidingtabstrip"    // Maven Group ID for the artifact，一般填你唯一的包名
 
 install {
     repositories.mavenInstaller {
@@ -93,7 +93,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"//发布到Bintray的那个仓库里，默认账户有四个库，我们这里上传到maven库
-        name = "pagerslidingtabstrip"    //发布到JCenter上的项目名字
+        name = "pagerslidingtab-lib"    //发布到JCenter上的项目名字
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]

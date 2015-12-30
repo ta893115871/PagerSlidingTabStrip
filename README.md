@@ -27,7 +27,7 @@ android:textSize="16sp" 正常状态的文字的大小
 
 # 声明-布局中
 ```java
-<com.example.guxiuzhong.pagerslidingtab_lib.PagerSlidingTabStrip
+<com.gxz.PagerSlidingTabStrip
     android:id="@+id/tabs"
     android:layout_width="match_parent"
     android:layout_height="40dp"
@@ -85,4 +85,19 @@ tabs.setFadeEnabled(false);
 // 设置最大缩放,是正常状态的0.3倍
 tabs.setZoomMax(0.3F);
 ```
- 
+#Maven
+
+```java
+<dependency>
+        <groupId>com.gxz.pagerslidingtabstrip</groupId>
+        <artifactId>library</artifactId>
+        <version>1.1</version>
+        <type>jar</type>
+        <classifier>sources</classifier>
+</dependency>
+ ```
+# Gradle
+
+```java
+ compile 'com.gxz.pagerslidingtabstrip:pagerslidingtab-lib:1.0'
+  ```
