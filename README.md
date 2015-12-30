@@ -91,7 +91,7 @@ tabs.setZoomMax(0.3F);
 <dependency>
         <groupId>com.gxz.pagerslidingtabstrip</groupId>
         <artifactId>library</artifactId>
-        <version>1.1</version>
+        <version>1.0</version>
         <type>jar</type>
         <classifier>sources</classifier>
 </dependency>
