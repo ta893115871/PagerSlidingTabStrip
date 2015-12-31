@@ -93,7 +93,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"//发布到Bintray的那个仓库里，默认账户有四个库，我们这里上传到maven库
-        name = "pagerslidingtab-lib"    //发布到JCenter上的项目名字
+        name = "pagerslidingtab-lib"    //发布到JCenter上的项目名字,和库的名字没有什么关系 ,fuck
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]

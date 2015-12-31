@@ -24,5 +24,9 @@ dependencies {
 //    compile project(':library')
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    compile 'com.gxz.pagerslidingtabstrip:pagerslidingtab-lib:1.0'
+    //group:库的名字(是你自己创建model库的名字 fuck):版本号
+    //jcenter-查看地址
+//    http://jcenter.bintray.com/com/gxz/pagerslidingtabstrip/pagerslidingtab-lib/1.0/
+//    http://jcenter.bintray.com/com/gxz/pagerslidingtabstrip/library/1.0/
+    compile 'com.gxz.pagerslidingtabstrip:library:1.1'
 }
