@@ -97,7 +97,12 @@ tabs.setZoomMax(0.3F);
 </dependency>
  ```
 # Gradle
-
+忘记把compile 'com.android.support:appcompat-v7:23.0.1'系统的依赖去除了;
+后续版本会去除
 ```java
-compile 'com.gxz.pagerslidingtabstrip:library:1.1'
+    compile('com.gxz.pagerslidingtabstrip:library:1.1') {
+        // exclusion for update the android support jar
+        // for example, you can use the appcompat-v7 in your project
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 ```
