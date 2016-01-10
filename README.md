@@ -1,6 +1,8 @@
 # PagerSlidingTabStrip
 Android-导航栏特效，主要是导航栏字体大小和颜色的渐变特效
 可以是固定的几个,可也可以是水平滚动
+#原理分析与实现
+<http://blog.csdn.net/ta893115871/article/details/44724953/>
 # 效果图
 <img src="1.gif" width="320px"/>
 <img src="2.gif" width="320px"/>
@@ -89,9 +91,9 @@ tabs.setZoomMax(0.3F);
 
 ```java
 <dependency>
-        <groupId>com.gxz.pagerslidingtabstrip</groupId>
+        <groupId>com.gxz.stickynavlayout</groupId>
         <artifactId>library</artifactId>
-        <version>1.1</version>
+        <version>1.0</version>
         <type>jar</type>
         <classifier>sources</classifier>
 </dependency>
