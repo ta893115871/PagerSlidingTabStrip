@@ -4,8 +4,9 @@ Android-导航栏特效，主要是导航栏字体大小和颜色的渐变特效
 #原理分析与实现
 <http://blog.csdn.net/ta893115871/article/details/44724953/>
 # 效果图
-<img src="1.gif" width="320px"/>
-<img src="2.gif" width="320px"/>
+<img src="/screenshots/1.gif"/>
+<img src="/screenshots/2.gif"/>
+<img src="/screenshots/3.gif"/>
 # 属性
 ```java
 app:pstsIndicatorColor  指示器的颜色
