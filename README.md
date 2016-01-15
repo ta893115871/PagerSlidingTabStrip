@@ -22,7 +22,7 @@ app:pstsTabBackground 每一个TAB的背景
 <!--该属性表示里面的TAB是否均分整个PagerSlidingTabStrip控件的宽,true是,false不均分,从左到右排列,默认false-->
 app:pstsShouldExpand
 app:pstsTextAllCaps 所有的小写英文文本自动大写 ,默认是true,默认大写
-<!--缩放的最大值,0.3表示放大后最大是原来的0.3倍,默认未0.3-->
+<!--缩放的最大值,0.3表示放大后最大是原来的0.3倍,默认为0.3-->
 app:pstsScaleZoomMax
 android:textColor="@color/color_45c01a" 正常状态的文字颜色
 android:textSize="16sp" 正常状态的文字的大小
@@ -94,18 +94,31 @@ tabs.setZoomMax(0.3F);
 <dependency>
         <groupId>com.gxz.stickynavlayout</groupId>
         <artifactId>library</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
         <type>jar</type>
         <classifier>sources</classifier>
 </dependency>
  ```
+ 
 # Gradle
-忘记把compile 'com.android.support:appcompat-v7:23.0.1'系统的依赖去除了;
-后续版本会去除
+dependencies {
+        compile 'com.gxz.pagerslidingtabstrip:library:1.1'
+}
+```
+
+# 注意
+因项目中的library中依赖了两个库
 ```java
-    compile('com.gxz.pagerslidingtabstrip:library:1.1') {
+dependencies {
+  compile 'com.android.support:appcompat-v7:23.1.1'
+  compile 'com.nineoldandroids:library:2.4.0'
+}
+使用一:有可能这2个依赖有新版本了 你可以这样将library中2个依赖库导出,用法如下,再依赖你自己的最新的库
+dependencies {
+compile('com.gxz.pagerslidingtabstrip:library:1.1') {
         // exclusion for update the android support jar
         // for example, you can use the appcompat-v7 in your project
         exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.nineoldandroids', module: 'library'
     }
-```
+}

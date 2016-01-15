@@ -22,16 +22,24 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 //    compile project(':library')
+
+    compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.android.support:appcompat-v7:23.1.1'
+
     compile 'com.android.support:design:23.1.1'
-    //group:库的名字(是你自己创建model库的名字 fuck):版本号
+    //group:库的名字(是你自己创建model库的名字哦,别搞错了):版本号
     //jcenter-查看地址
 //    http://jcenter.bintray.com/com/gxz/pagerslidingtabstrip/pagerslidingtab-lib/1.0/
 //    http://jcenter.bintray.com/com/gxz/pagerslidingtabstrip/library/1.0/
 //    compile 'com.gxz.pagerslidingtabstrip:library:1.1'
+
+    //使用一依赖的库版本升级了: 用你自己的  compile 'com.nineoldandroids:library:2.4.0' 和  compile 'com.android.support:appcompat-v7:23.1.1'
     compile('com.gxz.pagerslidingtabstrip:library:1.1') {
         // exclusion for update the android support jar
         // for example, you can use the appcompat-v7 in your project
         exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.nineoldandroids', module: 'library'
     }
+    //使用二:
+    //compile 'com.gxz.pagerslidingtabstrip:library:1.1'
 }
