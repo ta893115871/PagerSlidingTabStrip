@@ -113,7 +113,7 @@ dependencies {
   compile 'com.android.support:appcompat-v7:23.1.1'
   compile 'com.nineoldandroids:library:2.4.0'
 }
-使用一:有可能这2个依赖有新版本了 你可以这样将library中2个依赖库导出,用法如下,再依赖你自己的最新的库
+使用时有可能这两个依赖有新版本了 你可以这样将library中两个依赖库导出,用法如下,再依赖你自己的最新的库
 dependencies {
 compile('com.gxz.pagerslidingtabstrip:library:1.1') {
         // exclusion for update the android support jar
