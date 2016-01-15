@@ -89,7 +89,6 @@ tabs.setFadeEnabled(false);
 tabs.setZoomMax(0.3F);
 ```
 #Maven
-
 ```java
 <dependency>
         <groupId>com.gxz.stickynavlayout</groupId>
@@ -98,9 +97,10 @@ tabs.setZoomMax(0.3F);
         <type>jar</type>
         <classifier>sources</classifier>
 </dependency>
- ```
+```
  
 # Gradle
+```java
 dependencies {
         compile 'com.gxz.pagerslidingtabstrip:library:1.1'
 }
@@ -122,3 +122,4 @@ compile('com.gxz.pagerslidingtabstrip:library:1.1') {
         exclude group: 'com.nineoldandroids', module: 'library'
     }
 }
+```
