@@ -91,7 +91,7 @@ tabs.setZoomMax(0.3F);
 #Maven
 ```java
 <dependency>
-        <groupId>com.gxz.stickynavlayout</groupId>
+        <groupId>com.gxz.pagerslidingtabstrip</groupId>
         <artifactId>library</artifactId>
         <version>1.1</version>
         <type>jar</type>
