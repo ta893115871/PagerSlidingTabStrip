@@ -31,10 +31,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/****
+ * Android-导航栏特效，主要是导航栏字体大小和颜色的渐变特效
+ *
+ * @author guxiuzhong
+ * Email :gfj19900401@163.com
+ */
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     public interface IconTabProvider {
-        public int getPageIconResId(int position);
+        int getPageIconResId(int position);
     }
 
     // @formatter:off
@@ -43,7 +49,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             android.R.attr.textColor
     };
     // @formatter:on
-    private LinearLayout.LayoutParams matchparentTabLayoutParams;
+    private LinearLayout.LayoutParams matchParentTabLayoutParams;
     private LinearLayout.LayoutParams defaultTabLayoutParams;
     private LinearLayout.LayoutParams expandedTabLayoutParams;
 
@@ -87,9 +93,20 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int lastScrollX = 0;
 
     private int tabBackgroundResId;
-
     private Locale locale;
     private Context context;
+    private boolean smoothScrollWhenClickTab = true;//设置当点击TAB时,内容区域的ViewPager是否需要动画切换
+    private List<Map<String, View>> tabViews = new ArrayList<>();
+    private boolean mFadeEnabled = true;
+    private float zoomMax = 0.3f;
+    private State mState;
+
+    private enum State {
+        IDLE, GOING_LEFT, GOING_RIGHT
+    }
+
+    private int oldPage;
+
 
     public PagerSlidingTabStrip(Context context) {
         this(context, null);
@@ -143,6 +160,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         textAllCaps = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsTextAllCaps, textAllCaps);
         selectedTabTextColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsTextSelectedColor, selectedTabTextColor);
         zoomMax = a.getFloat(R.styleable.PagerSlidingTabStrip_pstsScaleZoomMax, zoomMax);
+        smoothScrollWhenClickTab = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsSmoothScrollWhenClickTab, smoothScrollWhenClickTab);
         a.recycle();
 
         rectPaint = new Paint();
@@ -154,7 +172,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         dividerPaint.setStrokeWidth(dividerWidth);
 
         defaultTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        matchparentTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        matchParentTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         expandedTabLayoutParams = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
 
 
@@ -164,20 +182,30 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         pageListener = new PageListener();
     }
 
+    /****
+     * 关联ViewPager
+     *
+     * @param pager pager
+     */
     public void setViewPager(ViewPager pager) {
         this.pager = pager;
-        if (pager.getAdapter() == null) {
+        if (this.pager.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
-        pager.setOnPageChangeListener(pageListener);
-        notifyDataSetChanged();
+        this.pager.addOnPageChangeListener(pageListener);
+        this.notifyDataSetChanged();
     }
 
+    /****
+     * 设置状态监听
+     *
+     * @param listener listener
+     */
     public void setOnPageChangeListener(OnPageChangeListener listener) {
         this.delegatePageListener = listener;
     }
 
-    public void notifyDataSetChanged() {
+    private void notifyDataSetChanged() {
         tabsContainer.removeAllViews();
         tabCount = pager.getAdapter().getCount();
         for (int i = 0; i < tabCount; i++) {
@@ -204,11 +232,13 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         tab.setText(title);
         tab.setGravity(Gravity.CENTER);
         tab.setSingleLine();
+        tab.setIncludeFontPadding(false);
 
         TextView tab2 = new TextView(getContext());
         tab2.setText(title);
         tab2.setGravity(Gravity.CENTER);
         tab2.setSingleLine();
+        tab2.setIncludeFontPadding(false);
 
         addTab(position, tab, tab2);
     }
@@ -225,18 +255,17 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         tab2.setPadding(tabPadding, 0, tabPadding, 0);
 
         FrameLayout framelayout = new FrameLayout(context);
-        framelayout.addView(tab, 0, matchparentTabLayoutParams);
-        framelayout.addView(tab2, 1, matchparentTabLayoutParams);
+        framelayout.addView(tab, 0, matchParentTabLayoutParams);
+        framelayout.addView(tab2, 1, matchParentTabLayoutParams);
         tabsContainer.addView(framelayout, position, shouldExpand ? expandedTabLayoutParams : defaultTabLayoutParams);
 
         framelayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //点击时没有切换的动画
-                pager.setCurrentItem(position, true);
+                mFadeEnabled = false;//点击时没有文字颜色渐变效果
+                pager.setCurrentItem(position, smoothScrollWhenClickTab);
                 currentPosition = position;
                 scrollToChild(position, 0);//滚动HorizontalScrollView
-                invalidate();//更新线的位置
             }
         });
 
@@ -375,14 +404,15 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             currentPosition = position;
             currentPositionOffset = positionOffset;
 
-            scrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
+            if (tabsContainer != null && tabsContainer.getChildAt(position) != null) {
+                scrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
+            }
 
             invalidate();
 
             if (delegatePageListener != null) {
                 delegatePageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
             }
-
 
             if (mState == State.IDLE && positionOffset > 0) {
                 oldPage = pager.getCurrentItem();
@@ -415,6 +445,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         public void onPageScrollStateChanged(int state) {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 scrollToChild(pager.getCurrentItem(), 0);
+                mFadeEnabled = true;
             }
             if (delegatePageListener != null) {
                 delegatePageListener.onPageScrollStateChanged(state);
@@ -548,9 +579,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         this.textAllCaps = textAllCaps;
     }
 
-    public void setTextSize(int textSizeDp) {
+    public void setTextSize(int textSizeSp) {
         this.tabTextSize = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, textSizeDp, getResources().getDisplayMetrics());
+                TypedValue.COMPLEX_UNIT_SP, textSizeSp, getResources().getDisplayMetrics());
         updateTabStyles();
     }
 
@@ -601,13 +632,22 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         return tabBackgroundResId;
     }
 
-    public void setTabPaddingLeftRight(int paddingPx) {
-        this.tabPadding = paddingPx;
+    public void setTabPaddingLeftRight(int paddingDp) {
+        this.tabPadding = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, paddingDp, getResources().getDisplayMetrics());
         updateTabStyles();
     }
 
     public int getTabPaddingLeftRight() {
         return tabPadding;
+    }
+
+    public boolean isSmoothScrollWhenClickTab() {
+        return smoothScrollWhenClickTab;
+    }
+
+    public void setSmoothScrollWhenClickTab(boolean smoothScrollWhenClickTab) {
+        this.smoothScrollWhenClickTab = smoothScrollWhenClickTab;
     }
 
     @Override
@@ -658,9 +698,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
 
-    List<Map<String, View>> tabViews = new ArrayList<Map<String, View>>();
-    private boolean mFadeEnabled = true;
-
     public void setFadeEnabled(boolean enabled) {
         mFadeEnabled = enabled;
     }
@@ -681,14 +718,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         return Math.abs(positionOffset) < 0.0001;
     }
 
-    private float zoomMax = 0.3f;
-    private State mState;
-
-    private enum State {
-        IDLE, GOING_LEFT, GOING_RIGHT
-    }
-
-    private int oldPage;
 
     protected void animateFadeScale(View left, View right, float positionOffset, int position) {
         if (mState != State.IDLE) {
@@ -713,5 +742,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         }
     }
 
-
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (null != pageListener && this.pager != null)
+            this.pager.removeOnPageChangeListener(pageListener);
+    }
 }

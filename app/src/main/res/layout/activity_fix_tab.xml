@@ -21,6 +21,7 @@
         app:pstsIndicatorHeight="4dp"
         app:pstsScaleZoomMax="0.2"
         app:pstsShouldExpand="true"
+        app:pstsTabPaddingLeftRight="12dp"
         app:pstsTextSelectedColor="@color/color_0babd1"
         app:pstsUnderlineColor="@color/color_e8e8e8" />
 

@@ -26,6 +26,7 @@ app:pstsTextAllCaps 所有的小写英文文本自动大写 ,默认是true,默�
 app:pstsScaleZoomMax
 android:textColor="@color/color_45c01a" 正常状态的文字颜色
 android:textSize="16sp" 正常状态的文字的大小
+app:pstsSmoothScrollWhenClickTab="false" 当点击tab时内容区域Viewpager是否是左右滑动,默认是true
 ```
 
 # 声明-布局中
@@ -60,7 +61,7 @@ tabs.setShouldExpand(true);
 
 // 设置Tab的分割线的颜色
 tabs.setDividerColor(getResources().getColor(R.color.color_80cbc4));
-// 设置分割线的上线的间距,传入的是dp
+// 设置分割线的上下的间距,传入的是dp
 tabs.setDividerPaddingTopBottom(12);
 
 // 设置Tab底部线的高度,传入的是dp
@@ -73,12 +74,14 @@ tabs.setIndicatorHeight(4);
 // 设置Tab Indicator的颜色
 tabs.setIndicatorColor(getResources().getColor(R.color.color_45c01a));
 
-// 设置Tab标题文字的大小,传入的是dp
+// 设置Tab标题文字的大小,传入的是sp
 tabs.setTextSize(16);
 // 设置选中Tab文字的颜色
 tabs.setSelectedTextColor(getResources().getColor(R.color.color_45c01a));
 //设置正常Tab文字的颜色
 tabs.setTextColor(getResources().getColor(R.color.color_C231C7));
+//设置Tab文字的左右间距,传入的是dp
+tabs.setTabPaddingLeftRight(24);
 
 //  设置点击Tab时的背景色
 tabs.setTabBackground(R.drawable.background_tab);
@@ -87,13 +90,16 @@ tabs.setTabBackground(R.drawable.background_tab);
 tabs.setFadeEnabled(false);
 // 设置最大缩放,是正常状态的0.3倍
 tabs.setZoomMax(0.3F);
+
+//这是当点击tab时内容区域Viewpager是否是左右滑动,默认是true
+tabs.setSmoothScrollWhenClickTab(true);
 ```
 #Maven
 ```java
 <dependency>
         <groupId>com.gxz.pagerslidingtabstrip</groupId>
         <artifactId>library</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
         <type>jar</type>
         <classifier>sources</classifier>
 </dependency>
@@ -102,7 +108,7 @@ tabs.setZoomMax(0.3F);
 # Gradle
 ```java
 dependencies {
-        compile 'com.gxz.pagerslidingtabstrip:library:1.1'
+        compile 'com.gxz.pagerslidingtabstrip:library:1.2'
 }
 ```
 
@@ -115,7 +121,7 @@ dependencies {
 }
 使用时有可能这两个依赖有新版本了 你可以这样将library中两个依赖库导出,用法如下,再依赖你自己的最新的库
 dependencies {
-compile('com.gxz.pagerslidingtabstrip:library:1.1') {
+compile('com.gxz.pagerslidingtabstrip:library:1.2') {
         // exclusion for update the android support jar
         // for example, you can use the appcompat-v7 in your project
         exclude group: 'com.android.support', module: 'appcompat-v7'
@@ -123,3 +129,11 @@ compile('com.gxz.pagerslidingtabstrip:library:1.1') {
     }
 }
 ```
+#V-1.2 FIX-BUG
+1.修改点击TAB颜色渐变不全的问题</p>
+2.增加:当点击tab时内容区域Viewpager是否是左右滑动,默认是true
+```java
+app:pstsSmoothScrollWhenClickTab="false"  属性
+tabs.setSmoothScrollWhenClickTab(true);   JAVA方法
+```
+

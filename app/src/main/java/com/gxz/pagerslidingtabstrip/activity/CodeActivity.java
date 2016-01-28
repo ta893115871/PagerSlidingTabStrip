@@ -45,7 +45,7 @@ public class CodeActivity extends FragmentActivity {
 
         // 设置Tab的分割线的颜色
         tabs.setDividerColor(getResources().getColor(R.color.color_80cbc4));
-        // 设置分割线的上线的间距,传入的是dp
+        // 设置分割线的上下的间距,传入的是dp
         tabs.setDividerPaddingTopBottom(12);
 
         // 设置Tab底部线的高度,传入的是dp
