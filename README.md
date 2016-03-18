@@ -137,5 +137,5 @@ app:pstsSmoothScrollWhenClickTab="false"  属性
 tabs.setSmoothScrollWhenClickTab(true);   JAVA方法
 ```
 #V-1.3 FIX-BUG
-1.setTabPaddingLeftRight(int padding) is not work!
+1.setTabPaddingLeftRight(int padding) 设置不起作用的问题
 
