@@ -108,7 +108,7 @@ tabs.setSmoothScrollWhenClickTab(true);
 # Gradle
 ```java
 dependencies {
-        compile 'com.gxz.pagerslidingtabstrip:library:1.2'
+        compile 'com.gxz.pagerslidingtabstrip:library:1.3'
 }
 ```
 
@@ -121,7 +121,7 @@ dependencies {
 }
 使用时有可能这两个依赖有新版本了 你可以这样将library中两个依赖库导出,用法如下,再依赖你自己的最新的库
 dependencies {
-compile('com.gxz.pagerslidingtabstrip:library:1.2') {
+compile('com.gxz.pagerslidingtabstrip:library:1.3') {
         // exclusion for update the android support jar
         // for example, you can use the appcompat-v7 in your project
         exclude group: 'com.android.support', module: 'appcompat-v7'
@@ -136,4 +136,6 @@ compile('com.gxz.pagerslidingtabstrip:library:1.2') {
 app:pstsSmoothScrollWhenClickTab="false"  属性
 tabs.setSmoothScrollWhenClickTab(true);   JAVA方法
 ```
+#V-1.3 FIX-BUG
+1.setTabPaddingLeftRight(int padding) is not work!
 

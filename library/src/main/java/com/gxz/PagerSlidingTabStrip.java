@@ -120,7 +120,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         super(context, attrs, defStyle);
         this.context = context;
         setFillViewport(true);
-        setWillNotDraw(false);
+        setWillNotDraw(false);// 防止onDraw方法不执行
 
         tabsContainer = new LinearLayout(context);
         tabsContainer.setOrientation(LinearLayout.HORIZONTAL);
@@ -292,6 +292,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                     TextView tab = (TextView) v;
                     tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize);
                     tab.setTypeface(tabTypeface, tabTypefaceStyle);
+                    tab.setPadding(tabPadding, 0, tabPadding, 0);
                     if (j == 0) {
                         tab.setTextColor(tabTextColor);
                     } else {
