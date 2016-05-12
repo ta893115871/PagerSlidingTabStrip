@@ -83,7 +83,7 @@ tabs.setTextColor(getResources().getColor(R.color.color_C231C7));
 //设置Tab文字的左右间距,传入的是dp
 tabs.setTabPaddingLeftRight(24);
 
-//  设置点击Tab时的背景色
+//设置点击每个Tab时的背景色
 tabs.setTabBackground(R.drawable.background_tab);
 
 //是否支持动画渐变(颜色渐变和文字大小渐变)
