@@ -139,3 +139,17 @@ tabs.setSmoothScrollWhenClickTab(true);   JAVA方法
 #V-1.3 FIX-BUG
 1.setTabPaddingLeftRight(int padding) 设置不起作用的问题
 
+#V-1.3.1 加入对title单击和双击的处理监听即OnPagerTitleItemClickListener
+```java
+  mPagerSlidingTabStrip.setOnPagerTitleItemClickListener(new PagerSlidingTabStrip.OnPagerTitleItemClickListener() {
+            @Override
+            public void onSingleClickItem(int position) {
+                Toast.makeText(LayoutActivity.this, "单击", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDoubleClickItem(int position) {
+                Toast.makeText(LayoutActivity.this, "双击", Toast.LENGTH_SHORT).show();
+            }
+        });
+```

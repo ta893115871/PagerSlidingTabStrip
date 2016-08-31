@@ -18,6 +18,8 @@
         <!--缩放的最大值,0.3表示放大后最大是原来的0.3倍,默认未0.3-->
         <attr name="pstsScaleZoomMax" format="float"/>
         <attr name="pstsSmoothScrollWhenClickTab" format="boolean"/>
+        <!-- 宽为match_parent ，指示器的宽需手动计算的问题,这个属性设置为true,则指示器的位置和字体的宽一样-->
+    <!--    <attr name="pstsIndicatorWrap" format="boolean" />-->
     </declare-styleable>
 
 </resources>

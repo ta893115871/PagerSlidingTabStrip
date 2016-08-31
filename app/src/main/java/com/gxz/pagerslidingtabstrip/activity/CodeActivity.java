@@ -73,6 +73,6 @@ public class CodeActivity extends FragmentActivity {
         // 设置最大缩放,是正常状态的0.3倍
         tabs.setZoomMax(0.3F);
         //设置Tab文字的左右间距,传入的是dp
-        tabs.setTabPaddingLeftRight(24);
+        tabs.setTabPaddingLeftRight(20);
     }
 }

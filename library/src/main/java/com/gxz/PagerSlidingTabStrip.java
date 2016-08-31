@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
@@ -35,7 +36,7 @@ import java.util.Map;
  * Android-导航栏特效，主要是导航栏字体大小和颜色的渐变特效
  *
  * @author guxiuzhong
- * Email :gfj19900401@163.com
+ *         Email :gfj19900401@163.com
  */
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
@@ -81,7 +82,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     private int indicatorHeight = 8;
     private int underlineHeight = 2;
     private int dividerPaddingTopBottom = 12;
-    private int tabPadding = 24;
+    private int tabPadding = 20;
     private int dividerWidth = 1;
 
     private int tabTextSize = 12;
@@ -107,6 +108,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
     private int oldPage;
 
+    private Paint mPaintTabText = new Paint();
+    private int mTabsTextWidth;//所有tab的实际字体的宽
+    private boolean indicatorWrap = false;//导航线的宽是否和字体的宽一样
 
     public PagerSlidingTabStrip(Context context) {
         this(context, null);
@@ -161,6 +165,8 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         selectedTabTextColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsTextSelectedColor, selectedTabTextColor);
         zoomMax = a.getFloat(R.styleable.PagerSlidingTabStrip_pstsScaleZoomMax, zoomMax);
         smoothScrollWhenClickTab = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsSmoothScrollWhenClickTab, smoothScrollWhenClickTab);
+        //宽为match_parent ，指示器的宽需手动计算的问题,这个属性设置为true,则指示器的位置和字体的宽一样
+//        indicatorWrap = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsIndicatorWrap, indicatorWrap);
         a.recycle();
 
         rectPaint = new Paint();
@@ -175,11 +181,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         matchParentTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         expandedTabLayoutParams = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
 
-
         if (locale == null) {
             locale = getResources().getConfiguration().locale;
         }
         pageListener = new PageListener();
+
+        mPaintTabText.setAntiAlias(true);
     }
 
     /****
@@ -222,6 +229,20 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 currentPosition = pager.getCurrentItem();
                 scrollToChild(currentPosition, 0);
+
+                //temp
+                if (indicatorWrap) {
+                    for (int i = 0; i < tabCount; i++) {
+                        String s = pager.getAdapter().getPageTitle(i).toString();
+                        //计算所有tab的实际字体的宽
+                        mPaintTabText.setTextSize(tabTextSize);
+                        mTabsTextWidth += (int) mPaintTabText.measureText(s,0,s.length());
+                    }
+                    if (mTabsTextWidth > 0) {
+                        tabPadding = (getMeasuredWidth() - mTabsTextWidth) / tabCount / 2;
+                    }
+                }
+
                 updateTabStyles();
             }
         });
@@ -254,18 +275,30 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         tab.setPadding(tabPadding, 0, tabPadding, 0);
         tab2.setPadding(tabPadding, 0, tabPadding, 0);
 
-        FrameLayout framelayout = new FrameLayout(context);
-        framelayout.addView(tab, 0, matchParentTabLayoutParams);
-        framelayout.addView(tab2, 1, matchParentTabLayoutParams);
-        tabsContainer.addView(framelayout, position, shouldExpand ? expandedTabLayoutParams : defaultTabLayoutParams);
+        TitleView titleView = new TitleView(getContext());
+        titleView.addView(tab, 0, matchParentTabLayoutParams);
+        titleView.addView(tab2, 1, matchParentTabLayoutParams);
+        tabsContainer.addView(titleView, position, shouldExpand ? expandedTabLayoutParams : defaultTabLayoutParams);
 
-        framelayout.setOnClickListener(new OnClickListener() {
+        titleView.setDoubleSingleClickListener(new TitleView.DoubleSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void  onDoubleTap(MotionEvent e) {
+                //cb
+                if (mOnPagerTitleItemClickListener!=null){
+                    mOnPagerTitleItemClickListener.onDoubleClickItem(position);
+                }
+            }
+
+            @Override
+            public void onSingleTapConfirmed(MotionEvent e) {
                 mFadeEnabled = false;//点击时没有文字颜色渐变效果
                 pager.setCurrentItem(position, smoothScrollWhenClickTab);
                 currentPosition = position;
                 scrollToChild(position, 0);//滚动HorizontalScrollView
+                //cb
+                if (mOnPagerTitleItemClickListener!=null){
+                    mOnPagerTitleItemClickListener.onSingleClickItem(position);
+                }
             }
         });
 
@@ -385,7 +418,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             lineLeft = (currentPositionOffset * nextTabLeft + (1f - currentPositionOffset) * lineLeft);
             lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
         }
-        canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+
+        if (indicatorWrap){
+            canvas.drawRect(lineLeft+tabPadding, height - indicatorHeight, lineRight-tabPadding, height, rectPaint);
+        }else{
+            canvas.drawRect(lineLeft+tabPadding, height - indicatorHeight, lineRight-tabPadding, height, rectPaint);
+        }
 
 
         // draw divider
@@ -746,7 +784,31 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (null != pageListener && this.pager != null)
-            this.pager.removeOnPageChangeListener(pageListener);
+//        if (null != pageListener && this.pager != null)
+//            this.pager.removeOnPageChangeListener(pageListener);
     }
+
+    //-----title-click-Single-Double
+    private  OnPagerTitleItemClickListener mOnPagerTitleItemClickListener;
+    public  interface  OnPagerTitleItemClickListener{
+        /**
+         * 单击,不需做切换处理了,内部已经处理
+         * @param position position
+         */
+        void onSingleClickItem(int position);
+        /**
+         * 双击
+         * @param position position
+         */
+        void onDoubleClickItem(int position);
+    }
+
+    /***
+     * 设置title的单击/双击事件的监听器
+     * @param mOnPagerTitleItemClickListener mOnPagerTitleItemClickListener
+     */
+    public  void setOnPagerTitleItemClickListener(OnPagerTitleItemClickListener mOnPagerTitleItemClickListener){
+        this.mOnPagerTitleItemClickListener=mOnPagerTitleItemClickListener;
+    }
+
 }
