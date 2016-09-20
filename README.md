@@ -99,7 +99,7 @@ tabs.setSmoothScrollWhenClickTab(true);
 <dependency>
         <groupId>com.gxz.pagerslidingtabstrip</groupId>
         <artifactId>library</artifactId>
-        <version>1.3</version>
+        <version>1.3.1</version>
         <type>jar</type>
         <classifier>sources</classifier>
 </dependency>
@@ -108,7 +108,7 @@ tabs.setSmoothScrollWhenClickTab(true);
 # Gradle
 ```java
 dependencies {
-        compile 'com.gxz.pagerslidingtabstrip:library:1.3'
+        compile 'com.gxz.pagerslidingtabstrip:library:1.3.1'
 }
 ```
 
